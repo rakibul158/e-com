@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::prefix('admin')->namespace('Admin')->group(function (){
+    Route::match(['get','post'],'/',[AdminController::class, 'login'])->name('admin.login');
+    Route::group(['middleware'=>['admin']],function (){
+        Route::get('/dashboard',[AdminController::class, 'dashboard'])->name('dashboard');
+    });
 });
