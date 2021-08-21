@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +16,15 @@ class AdminController extends Controller
     {
         return view('admin.dashboard');
     }
+
+    public function settings()
+    {
+        $adminDetails = Admin::where('email',Auth::guard('admin')->user()->email)->first();
+        //dd($adminDetails);
+        return view('admin.settings.index')
+            ->with('adminDetails',$adminDetails);
+    }
+
     public function login(Request $request)
     {
         if($request->isMethod('post'))
@@ -57,4 +67,38 @@ class AdminController extends Controller
         Auth::guard('admin')->logout();
         return redirect('/admin');
     }
+
+    public  function checkCurrentPwd(Request $request)
+    {
+        $data = $request->all();
+        //echo "<pre>"; print_r($data); die;
+        //echo "<pre>"; print_r(Auth::guard('admin')->user()->password); die;
+        if(Hash::check($data['current_pwd'], Auth::guard('admin')->user()->password)){
+            echo "True";
+        } else {
+            echo "False";
+        }
+    }
+
+    public function updateCurrentPwd(Request $request)
+    {
+        if($request->isMethod('post')){
+            $data = $request->all();
+            //echo "<pre>"; print_r($data); die;
+           // dd($data);
+            if(Hash::check($data['current_pwd'], Auth::guard('admin')->user()->password)){
+                if ($data['new_pwd'] == $data['confirm_pwd']){
+                    Admin::where('id', Auth::guard('admin')->user()->id)->update(['password' =>bcrypt($data['new_pwd'])]);
+                    Session::flash('success_message','Password has been Updated Successfully!');
+                } else {
+                    Session::flash('error_message','New Password and Confirm Password Must Be Same!');
+                }
+            } else {
+                Session::flash('error_message','Current Password is Incorrect!');
+            }
+            return redirect()->back();
+        }
+    }
+
+
 }

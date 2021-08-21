@@ -27,6 +27,10 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
     Route::match(['get','post'],'/',[AdminController::class, 'login'])->name('admin.login');
     Route::group(['middleware'=>['admin']],function (){
         Route::get('/dashboard',[AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/settings',[AdminController::class, 'settings'])->name('admin.settings');
         Route::get('/logout',[AdminController::class, 'logout'])->name('admin.logout');
+        Route::post('/check-current-pwd',[AdminController::class, 'checkCurrentPwd'])->name('admin.checkCurrentPwd');
+        Route::post('/update-current-pwd',[AdminController::class, 'updateCurrentPwd'])->name('admin.updateCurrentPwd');
+
     });
 });
