@@ -31,6 +31,7 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
         Route::get('/logout',[AdminController::class, 'logout'])->name('admin.logout');
         Route::post('/check-current-pwd',[AdminController::class, 'checkCurrentPwd'])->name('admin.checkCurrentPwd');
         Route::post('/update-current-pwd',[AdminController::class, 'updateCurrentPwd'])->name('admin.updateCurrentPwd');
+        Route::match(['get','post'],'/update-details',[AdminController::class, 'updateDetails'])->name('admin.updateDetails');
 
     });
 });
