@@ -25,7 +25,12 @@ dist/
 
 # JetBrains IDE
 .idea/
+.env
+/.env
+/public/images/admin/admin_upload_profile_images
 
+/vendor
+vendor
 # Unit test reports
 TEST*.xml
 
