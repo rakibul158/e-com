@@ -10,10 +10,10 @@ $(document).ready(function () {
                 //alert(resp);
                 if(resp=="False")
                 {
-                    $('#checkCurrentPwdError').html("<font color=red>Current Password in Incorrect </font>");
+                    $('#checkCurrentPwdError').html("<font color=red>Current Password in Incorrect. </font>");
                 } else if(resp == "True")
                 {
-                    $('#checkCurrentPwdError').html("<font color=green>Current Password in Correct </font>");
+                    $('#checkCurrentPwdError').html("<font color=green>Current Password in Correct. </font>");
                 }
             },
             error: function () {
