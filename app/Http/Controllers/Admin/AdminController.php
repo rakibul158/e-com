@@ -15,11 +15,13 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
+        Session::put('page','dashboard');
         return view('admin.dashboard');
     }
 
     public function settings()
     {
+        Session::put('page','settings');
         $adminDetails = Admin::where('email',Auth::guard('admin')->user()->email)->first();
         //dd($adminDetails);
         return view('admin.settings.index')
@@ -106,6 +108,7 @@ class AdminController extends Controller
 
     public function updateDetails(Request $request)
     {
+        Session::put('page','update-admin-details');
         if ($request->isMethod('post'))
         {
             $data = $request->all();
@@ -127,7 +130,7 @@ class AdminController extends Controller
                     $extension = $image_tmp->getClientOriginalExtension();
                     $imageName = rand(111,99999).'.'.$extension;
                     $imagePath = 'images/admin/admin_upload_profile_images/'.$imageName;
-                    Image::make($image_tmp)->save($imagePath);
+                    Image::make($image_tmp)->resize(400,400)->save($imagePath);
                 } else if(!empty($data['current_img'])){
                     $imageName = $data['current_img'];
                 } else{
