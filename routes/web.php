@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\SectionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,9 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
         Route::post('/check-current-pwd',[AdminController::class, 'checkCurrentPwd'])->name('admin.checkCurrentPwd');
         Route::post('/update-current-pwd',[AdminController::class, 'updateCurrentPwd'])->name('admin.updateCurrentPwd');
         Route::match(['get','post'],'/update-details',[AdminController::class, 'updateDetails'])->name('admin.updateDetails');
+
+        //Sections
+        Route::get('/sections',[SectionController::class,'index'])->name('sections.index');
 
     });
 });
