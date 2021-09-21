@@ -37,6 +37,7 @@
                     </a>
                 </li>
 
+                <!-- Settings -->
 
                 @if(Session::get('page')== 'settings' || Session::get('page') == 'update-admin-details')
                     <?php $active = 'active'; ?>
@@ -72,6 +73,46 @@
                             <a href="{{route('admin.updateDetails')}}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Update Info</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!--  Catalogue  -->
+                @if(Session::get('page')== 'sections' || Session::get('page') == 'categories')
+                    <?php $active = 'active'; ?>
+                @else
+                    <?php $active = ''; ?>
+                @endif
+                <li class="nav-item has-treeview menu-open">
+                    <a href="#" class="nav-link {{ $active }}">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Catalogue
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            @if(Session::get('page')== 'sections')
+                                <?php $active = 'active'; ?>
+                            @else
+                                <?php $active = ''; ?>
+                            @endif
+                            <a href="{{ route('sections.index') }}" class="nav-link {{ $active}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Sections</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            @if(Session::get('page') == 'categories')
+                                <?php $active = 'active'; ?>
+                            @else
+                                <?php $active = ''; ?>
+                            @endif
+                            <a href="#" class="nav-link {{ $active }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Categories</p>
                             </a>
                         </li>
                     </ul>
