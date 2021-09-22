@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SectionController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,11 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
         //Sections
         Route::get('/sections',[SectionController::class,'index'])->name('sections.index');
         Route::post('/update-section-status',[SectionController::class,'updateSectionStatus'])->name('update.section.status');
+
+        //Category
+        Route::get('/category',[CategoryController::class,'index'])->name('category.index');
+        Route::post('/update-category-status',[CategoryController::class,'updateCategoryStatus'])->name('update.category.status');
+
 
     });
 });
