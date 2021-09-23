@@ -22,15 +22,25 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
+                @if(Session::has('success_message'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ Session::get('success_message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Category</h3>
+                                <a href="{{ route('category.add.edit') }}" class="btn btn-primary float-right">Add Category</a>
                             </div>
+
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="sections" class="table table-bordered table-hover">
+                                <table id="category" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
                                         <th>Id</th>

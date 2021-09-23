@@ -28,6 +28,7 @@ dist/
 .env
 /.env
 /public/images/admin/admin_upload_profile_images
+/public/images/admin/category_image
 
 /vendor
 vendor

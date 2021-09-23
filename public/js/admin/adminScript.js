@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    // Current Password Chack
     $("#current_pwd").keyup(function () {
         var getCurrentPwd = $("#current_pwd").val();
         //alert(getCurrentPwd);
@@ -22,6 +23,7 @@ $(document).ready(function () {
             });
     });
 
+    // Update Section Status
     $('.updateSectionsStatus').click(function () {
         let status = $(this).text();
         let section_id = $(this).attr('section_id');
@@ -50,6 +52,7 @@ $(document).ready(function () {
         });
     });
 
+    // Update Category Status
     $('.updateCategoryStatus').click(function () {
         let status = $(this).text();
         let category_id = $(this).attr('category_id');
@@ -73,6 +76,26 @@ $(document).ready(function () {
                 }
             },
             error:function () {
+                alert("Error");
+            }
+        });
+    });
+
+
+    //Append Category level
+    $('#sectionId').change(function () {
+        let section_id = $(this).val();
+        // alert(section_id);
+        $.ajax({
+           type: 'POST',
+           url: '/admin/append-category-level',
+           data: {
+               section_id: section_id
+            },
+           success:function (resp) {
+                $('#appendCategoryLevel').html(resp)
+            },
+           error:function () {
                 alert("Error");
             }
         });
