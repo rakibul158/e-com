@@ -44,16 +44,34 @@
                                     <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Parent Category</th>
+                                        <th>Section</th>
                                         <th>URL</th>
                                         <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <?php
+                                        $i = 1;
+                                    ?>
                                     @foreach($categories as $category)
+                                        @if(!isset($category->parentCategory->category_name))
+                                            <?php
+                                                $parent_category = "Root";
+                                            ?>
+                                        @else
+                                            <?php
+                                                $parent_category = $category->parentCategory->category_name;
+                                            ?>
+                                        @endif
+
                                         <tr>
-                                            <td>{{ $category->id }}</td>
+                                            <td>{{ $i++ }}</td>
                                             <td>{{ $category->category_name }}</td>
+                                            <td>{{ $parent_category }}</td>
+                                            <td>{{ $category->section->name }}</td>
                                             <td>{{ $category->url }}</td>
                                             <td>
                                                 @if($category->status == 1)
@@ -62,6 +80,11 @@
                                                     <a href="javascript:void(0)" class="updateCategoryStatus" id="category-{{ $category->id }}" category_id="{{ $category->id }}">Inactive</a>
                                                 @endif
 
+                                            </td>
+                                            <td>
+                                                <a href="{{ url('admin/add-edit-category/'.$category->id) }}">Edit</a>
+                                                &nbsp; &nbsp;
+                                                <a href="{{ url('admin/delete-category/'.$category->id) }}">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach

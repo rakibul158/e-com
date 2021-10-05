@@ -1,3 +1,10 @@
+var loadFile = function(event) {
+    var output = document.getElementById('categoryImageShow');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+        URL.revokeObjectURL(output.src) // free memory
+    }
+};
 $(document).ready(function () {
     // Current Password Chack
     $("#current_pwd").keyup(function () {

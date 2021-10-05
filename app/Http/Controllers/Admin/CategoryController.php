@@ -14,7 +14,9 @@ class CategoryController extends Controller
     public function index()
     {
         Session::put('page','categories');
-        $categories = Category::get();
+        $categories = Category::with(['section','parentCategory'])->get();
+//        $categories = json_decode(json_encode($categories));
+//        echo "<pre>"; print_r($categories); die;
         return view('admin.category.index')
             ->with('categories',$categories);
     }
@@ -40,9 +42,22 @@ class CategoryController extends Controller
         if($id == '')
         {
             $title = "Add Category";
+            $submit = "Add Category";
             $category = new Category;
+            $categoryData = [];
+            $getCategory = [];
+            $message = "Category Added Successfully!";
         } else{
             $title = "Edit Category";
+            $submit = "Update";
+            $categoryData = Category::where('id',$id)->first();
+            $categoryData = json_decode(json_encode($categoryData),true);
+           // echo "<pre>"; print_r($categoryData); die;
+            $getCategory = Category::with('subCategories')->where(['parent_id'=>0, 'section_id'=>$categoryData['section_id']])->get();
+            $getCategory = json_decode(json_encode($getCategory),true);
+            // echo "<pre>"; print_r($getCategory); die;
+            $category = Category::find($id);
+            $message = "Category Updated Successfully!";
         }
         if($request->isMethod('POST'))
         {
@@ -68,7 +83,7 @@ class CategoryController extends Controller
                     $extension = $image_tmp->getClientOriginalExtension();
                     $imageName = rand(111, 99999) . '.' . $extension;
                     $imagePath = 'images/admin/category_image/' . $imageName;
-                    Image::make($image_tmp)->resize(400, 400)->save($imagePath);
+                    Image::make($image_tmp)->save($imagePath);
                     $category->category_image = $imageName;
                 }
             }
@@ -101,14 +116,18 @@ class CategoryController extends Controller
             $category->meta_keyword = $data['meta_keyword'];
             $category->status = 1;
             $category->save();
-            Session::flash('success_message','Category Added Successfully!');
+            Session::flash('success_message',$message);
             return redirect()->route('category.index');
         }
 
         $sections = Sections::where('status',1)->get();
         return view('admin.category.add_edit')
             ->with('title',$title)
-            ->with('sections',$sections);
+            ->with('submit',$submit)
+            ->with('sections',$sections)
+            ->with('categoryData',$categoryData)
+            ->with('getCategory',$getCategory)
+            ;
     }
 
     public function appendCategoryLevel(Request $request)
@@ -117,13 +136,33 @@ class CategoryController extends Controller
         {
             $data = $request->all();
             // echo "<pre>"; print_r($data); die;
-            $categories = Category::with('subCategories')->where(['section_id'=> $data['section_id'],'parent_id'=>0, 'status'=>1])->get();
-            $categories = json_decode(json_encode($categories),true);
+            $getCategory = Category::with('subCategories')->where(['section_id'=> $data['section_id'],'parent_id'=>0, 'status'=>1])->get();
+            $getCategory = json_decode(json_encode($getCategory),true);
            // echo "<pre>"; print_r($categories); die;
 
             return view('admin.category.append_category_level')
-                ->with('categories',$categories);
+                ->with('getCategory',$getCategory);
 
         }
+    }
+
+    public function deleteCategoryImage($id)
+    {
+        $categoryImage = Category::select('category_image')->where('id',$id)->first();
+
+        $category_image_path = 'images/admin/category_image/';
+
+        if(file_exists($category_image_path.$categoryImage->category_image))
+        {
+            unlink($category_image_path.$categoryImage->category_image);
+        }
+        Category::where('id',$id)->update(['category_image' => '']);
+        return redirect()->back()->with('success_message','Category Image has been deleted Successfully! ');
+    }
+
+    public function deleteCategory($id)
+    {
+        Category::where('id',$id)->delete();
+        return redirect()->back()->with('success_message','Category has been deleted Successfully! ');
     }
 }
