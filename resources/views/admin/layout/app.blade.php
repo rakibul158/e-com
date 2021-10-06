@@ -32,7 +32,10 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="{{ asset('css/admin/main.css') }}">
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
@@ -107,6 +110,9 @@
 <script src="{{ asset('js/admin/adminScript.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('js/admin/pages/dashboard.js') }}"></script>
+{{--sweetalert2--}}
+<script src="{{ asset('js/admin/sweetalert2.all.min.js') }}"></script>
+
 <script>
     $(function () {
         $("#sections").DataTable({

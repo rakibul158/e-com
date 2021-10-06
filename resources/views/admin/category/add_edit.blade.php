@@ -170,11 +170,11 @@
                                             <img id="categoryImageShow" style="width: 100%;">
                                         </div>
                                         @if(!empty($categoryData['category_image']))
-                                            <div class="">
-                                                <img style="width: 50%;" src="{{ asset('images/admin/category_image/'.$categoryData['category_image']) }}" alt="">
-                                                &nbsp;
-                                                <a href="{{ url('admin/delete-category-image/'.$categoryData['id']) }}">Delete Image</a>
+                                            <div class="content_img">
+                                                <img src="{{ asset('images/admin/category_image/'.$categoryData['category_image']) }}" width="100%">
+                                                <a href="javascript:void(0)" class="confirmDelete" record="Image" recordId="{{$categoryData['id'] }}"><i class="fas fa-trash"></i></a>
                                             </div>
+
                                         @endif
 
                                     </div>

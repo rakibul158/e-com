@@ -84,7 +84,7 @@
                                             <td>
                                                 <a href="{{ url('admin/add-edit-category/'.$category->id) }}">Edit</a>
                                                 &nbsp; &nbsp;
-                                                <a href="{{ url('admin/delete-category/'.$category->id) }}">Delete</a>
+                                                <a {{--href="{{ url('admin/delete-category/'.$category->id) }}"--}} href="javascript:void(0)" class="confirmDelete" record="Category" recordId="{{ $category->id }}">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach
