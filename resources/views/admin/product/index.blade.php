@@ -12,7 +12,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Category</li>
+                            <li class="breadcrumb-item active">Products</li>
                         </ol>
                     </div>
                 </div>
@@ -34,57 +34,49 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Category</h3>
-                                <a href="{{ route('category.add.edit') }}" class="btn btn-primary float-right">Add Category</a>
+                                <h3 class="card-title">Products</h3>
+                                <a href="{{ route('product.add.edit') }}" class="btn btn-primary float-right">Add Product</a>
                             </div>
 
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="category" class="table table-bordered table-hover">
+                                <table id="product" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
                                         <th>Id</th>
+                                        <th>Product Name</th>
+                                        <th>Product Code</th>
+                                        <th>Product Color</th>
                                         <th>Category</th>
-                                        <th>Parent Category</th>
-                                        <th>Section</th>
-                                        <th>URL</th>
+                                        <th>Sections</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <?php
-                                        $i = 1;
+                                    $i = 1;
                                     ?>
-                                    @foreach($categories as $category)
-                                        @if(!isset($category->parentCategory->category_name))
-                                            <?php
-                                                $parent_category = "Root";
-                                            ?>
-                                        @else
-                                            <?php
-                                                $parent_category = $category->parentCategory->category_name;
-                                            ?>
-                                        @endif
-
+                                    @foreach($products as $product)
                                         <tr>
                                             <td>{{ $i++ }}</td>
-                                            <td>{{ $category->category_name }}</td>
-                                            <td>{{ $parent_category }}</td>
-                                            <td>{{ $category->section->name }}</td>
-                                            <td>{{ $category->url }}</td>
+                                            <td>{{ $product->product_name }}</td>
+                                            <td>{{ $product->product_code }}</td>
+                                            <td>{{ $product->product_color }}</td>
+                                            <td>{{ $product->category->category_name }}</td>
+                                            <td>{{ $product->section->name }}</td>
                                             <td>
-                                                @if($category->status == 1)
-                                                    <a href="javascript:void(0)" class="updateCategoryStatus" id="category-{{ $category->id }}" category_id="{{ $category->id }}">Active</a>
+                                                @if($product->status == 1)
+                                                    <a href="javascript:void(0)" class="updateProductStatus" id="product-{{ $product->id }}" product_id="{{ $product->id }}">Active</a>
                                                 @else
-                                                    <a href="javascript:void(0)" class="updateCategoryStatus" id="category-{{ $category->id }}" category_id="{{ $category->id }}">Inactive</a>
+                                                    <a href="javascript:void(0)" class="updateProductStatus" id="product-{{ $product->id }}" product_id="{{ $product->id }}">Inactive</a>
                                                 @endif
 
                                             </td>
                                             <td>
-                                                <a href="{{ url('admin/add-edit-category/'.$category->id) }}">Edit</a>
+                                                <a href="{{ url('admin/add-edit-product/'.$product->id) }}">Edit</a>
                                                 &nbsp; &nbsp;
-                                                <a {{--href="{{ url('admin/delete-category/'.$category->id) }}"--}} href="javascript:void(0)" class="confirmDelete" record="category" recordId="{{ $category->id }}">Delete</a>
+                                                <a href="javascript:void(0)" class="confirmDelete" record="product" recordId="{{ $product->id }}">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -129,6 +129,7 @@
         //     "responsive": true,
         // });
         $("#category").DataTable();
+        $("#product").DataTable();
 
         //Initialize Select2 Elements
         $('.select2').select2()
